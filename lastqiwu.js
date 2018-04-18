@@ -10,28 +10,45 @@ document.body.appendChild(canvas);
 var arr = [2, 2, 4];
 var text = {
     put: [],
-    y: 70,
+    y: 100,
     x: 30
 };
 
 function sum(order) {
 	for(var i = 0; i < 16 ;i++) {
 		if(text.put[i] == text.put[i + order] && text.put[i] && (i - 3) % 4) {
-                text.put[i] === '';
+                text.put[i] = '';
                 text.put[i + order] = 2 * text.put[i];
                 
-            }
+            }else 
+              if(!text.put[i + order] && text.put[i] && (i - 3) % 4) {
+                text.put[i] = '';
+                text.put[i + order] =  text.put[i];
+              }
 	}
 }
 
+function reduce(order) {
+	for(var i = 0; i < 16 ;i++) {
+		if(text.put[i] == text.put[i - order] && text.put[i] && (i - 3) % 4) {
+                text.put[i] = '';
+                text.put[i - order] = 2 * text.put[i];
+                
+            }else 
+              if(!text.put[i - order] && text.put[i] && (i - 3) % 4) {
+                text.put[i] = '';
+                text.put[i - order] =  text.put[i];
+              }
+	}
+}
 
-function init(i) {
+function init(i, log) {
 	if(!text.put[i] && !log) {
-		left = 1;
 	    text.put[i] = arr[parseInt(Math.random() * 3)];
+      return log = 1;
 	}
 }
-(function startNum() {
+function startNum() {
     ctx.beginPath();
     ctx.moveTo(0, 0);
     ctx.lineTo(400, 0);
@@ -71,22 +88,26 @@ function init(i) {
     	}
     	
     }
-    text.y = 20;
-    window.requestAnimationFrame(startNum);
-})();
+    text.y = 70;
+  window.requestAnimationFrame(startNum);
 
-'/'
+
+};
+
 addEventListener('keydown', function (e) {
+    var log = 0;
     if (e.keyCode === 37) {//left
-    	var log = 0;
+        ctx.clearRect(0,0,canvas.width,canvas.height);
         for(var i = 0; i <= 12; i += 4) {
             init(i);
         }
         sum(1);
+      startNum();
         log = 0;
     }else
     if (e.keyCode === 38) {//up
         for(var i = 0; i <= 3; i++) {
+            ctx.clearRect(0,0,canvas.width,canvas.height);
             init(i);
 	    }
         sum(4);
@@ -94,17 +115,21 @@ addEventListener('keydown', function (e) {
     }else
     if (e.keyCode === 39) {//right
         for(var i = 3; i <= 15; i+=4) {
+            ctx.clearRect(0,0,canvas.width,canvas.height);
             init(i);
         }
-        sum(1);        
+        reduce(1);        
         log = 0;
     }else
     if (e.keyCode === 40) {//down
         for(var i = 12; i <= 15; i++) {
+            ctx.clearRect(0,0,canvas.width,canvas.height);
             init(i);
         }
-        sum(4);
+        reduce(4);
         log = 0;
     }
     
 }, false);
+
+
