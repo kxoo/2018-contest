@@ -17,37 +17,34 @@ var text = {
 };
 
 function sum(order) {
-	for(var i = 0; i < 16 ;i++) {
-		if(text.put[i] == text.put[i + order] && text.put[i]) {
+	for(var i = 0; i < 16; i++) {
+		if(text.put[i] == text.put[i + order] && text.put[i] ) {
                 text.put[i + order] = 2 * text.put[i];
-                text.put[i] = '';                
+                text.put[i] = undefined; 
+                return;                
             }else 
               if(!text.put[i + order] && text.put[i] ) {
                 text.put[i + order] =  text.put[i];
-                text.put[i] = '';
+                text.put[i] = undefined;
+                return;
               }
 	}
 }
 
 function reduce(order) {
-	for(var i = 0; i < 16 ;i++) {
-		if(text.put[i] == text.put[i - order] && text.put[i]) {
+	for(var i = 15; i >= 0; i--) {
+		if(text.put[i] == text.put[i - order] && text.put[i] ) {
                 text.put[i - order] = 2 * text.put[i];
                 text.put[i] = '';                
             }else 
-              if(!text.put[i - order] && text.put[i]) {               
+              if(!text.put[i - order] && text.put[i] ) {               
                 text.put[i - order] =  text.put[i];
 				text.put[i] = '';
               }
 	}
 }
 
-function init(i, log) {
-	if(!text.put[i] && !log) {
-		log = 1;
-	    text.put[i] = arr[parseInt(Math.random() * 3)];
-	}
-}
+
 
 (function startNum() {
     ctx.beginPath();
@@ -88,7 +85,7 @@ function init(i, log) {
     	}
     	 if(text.x > 350 || text.y > 400) {
     	 	text.put[i] = '';
-    	 	
+
     	 }
     	
     }
@@ -98,6 +95,12 @@ function init(i, log) {
 
 addEventListener('keydown', function (e) {
     var log = 0;
+	function init(i) {
+	if(!text.put[i] && !log) {
+		log = 1;
+	    text.put[i] = arr[parseInt(Math.random() * 3)];
+	}
+}
     if (e.keyCode === 37) {//left
         ctx.clearRect(0, 0, canvas.width, canvas.height);
         reduce(1);
