@@ -6,6 +6,7 @@ canvas.height = 400;
 ctx.fillStyle="#373c38";
 ctx.fillRect(0, 0, 400, 400);
 ctx.font="60px Arial";
+ctx.textAlign="center";
 ctx.strokeStyle= "rgb(0,0,0)";
 document.body.appendChild(canvas);
 
@@ -13,7 +14,7 @@ var arr = [2, 2, 4];
 var text = {
     put: [],
     y: 100,
-    x: 30
+    x: 50
 };
 
 function sum(order) {
@@ -23,7 +24,7 @@ function sum(order) {
                 text.put[i] = undefined; 
                 return;                
             }else 
-              if(!text.put[i + order] && text.put[i] ) {
+              if(!text.put[i + order] && text.put[i] && (i + order) < 15) {
                 text.put[i + order] =  text.put[i];
                 text.put[i] = undefined;
                 return;
@@ -33,11 +34,11 @@ function sum(order) {
 
 function reduce(order) {
 	for(var i = 15; i >= 0; i--) {
-		if(text.put[i] == text.put[i - order] && text.put[i] ) {
+		if(text.put[i] == text.put[i - order] && text.put[i] && (i - order) > 0) {
                 text.put[i - order] = 2 * text.put[i];
                 text.put[i] = '';                
             }else 
-              if(!text.put[i - order] && text.put[i] ) {               
+              if(!text.put[i - order] && text.put[i] && i % 4 && (i - order) > 0) {               
                 text.put[i - order] =  text.put[i];
 				text.put[i] = '';
               }
@@ -79,7 +80,7 @@ function reduce(order) {
 
     	if((i - 3) % 4 === 0 ) {
     		text.y += 100;
-    		text.x = 30;
+    		text.x = 50;
     	}else {
     		text.x += 100;
     	}
