@@ -18,34 +18,42 @@ var text = {
 };
 
 function sum(order) {
-	for(var i = 0; i < 16; i++) {
-		if(text.put[i] == text.put[i + order] && text.put[i] ) {
-                text.put[i + order] = 2 * text.put[i];
-                text.put[i] = undefined; 
-                return;                
-            }else 
-              if(!text.put[i + order] && text.put[i] && (i + order) < 15) {
+    for(var i = 0; i < 16; i++) {
+         if(order !== 4 && ((i+1) % 4) === 0) {
+            ++i;
+            } 
+         if(!text.put[i + order] && text.put[i] && (i + order) <= 15) {
                 text.put[i + order] =  text.put[i];
                 text.put[i] = undefined;
-                return;
+                
               }
-	}
+         if(text.put[i] == text.put[i + order] && text.put[i]  && (i + order) <= 15) {         
+                text.put[i + order] = 2 * text.put[i];
+                text.put[i] = undefined; 
+            }
+              
+
+    }
 }
 
 function reduce(order) {
-	for(var i = 15; i >= 0; i--) {
-		if(text.put[i] == text.put[i - order] && text.put[i] && (i - order) > 0) {
-                text.put[i - order] = 2 * text.put[i];
-                text.put[i] = '';                
-            }else 
-              if(!text.put[i - order] && text.put[i] && i % 4 && (i - order) > 0) {               
-                text.put[i - order] =  text.put[i];
-				text.put[i] = '';
-              }
-	}
+
+    for(var i = 15; i >= 0; i--) {
+         if(order !== 4 && ( i % 4 === 0)) {
+            --i;
+        }
+        if(!text.put[i - order] && text.put[i]  && (i - order) >= 0) {               
+        text.put[i - order] =  text.put[i];
+        text.put[i] = undefined;
+      }
+      if(text.put[i] === text.put[i - order] && text.put[i] && (i - order) >= 0 ) {
+       
+        text.put[i - order] = 2 * text.put[i];
+        text.put[i] = undefined;  
+                
+    }
+    }
 }
-
-
 
 (function startNum() {
     ctx.beginPath();
@@ -73,63 +81,59 @@ function reduce(order) {
     ctx.stroke();
 
     for(var i = 0; i <= 15; i ++) {
-    	if (text.put[i] === undefined) {
-    		text.put[i] = '';
-    	}
+        if (text.put[i] === undefined) {
+            text.put[i] = '';
+        }
         ctx.fillText(text.put[i], text.x, text.y);
 
-    	if((i - 3) % 4 === 0 ) {
-    		text.y += 100;
-    		text.x = 50;
-    	}else {
-    		text.x += 100;
-    	}
-    	 if(text.x > 350 || text.y > 400) {
-    	 	text.put[i] = '';
-
-    	 }
-    	
+        if((i - 3) % 4 === 0 ) {
+            text.y += 100;
+            text.x = 50;
+        }else {
+            text.x += 100;
+        }
+        
     }
     text.y = 70;
-  	window.requestAnimationFrame(startNum);
+    window.requestAnimationFrame(startNum);
 })();
 
 addEventListener('keydown', function (e) {
     var log = 0;
-	function init(i) {
-	if(!text.put[i] && !log) {
-		log = 1;
-	    text.put[i] = arr[parseInt(Math.random() * 3)];
-	}
-}
+    function init(i) {
+    if(!text.put[i] && !log) {
+            log = 1;
+            text.put[i] = arr[parseInt(Math.random() * 3)];
+        }
+    }
     if (e.keyCode === 37) {//left
         ctx.clearRect(0, 0, canvas.width, canvas.height);
         reduce(1);
         for(var i = 3; i <= 15; i += 4) {
-            init(i, log);
+            init(i);
         }
         log = 0;
     }else
     if (e.keyCode === 38) {//up
-        reduce(4);    	
+        ctx.clearRect(0, 0, canvas.width, canvas.height);
+        reduce(4);      
         for(var i = 12; i <= 15; i++) {
-            ctx.clearRect(0, 0, canvas.width, canvas.height);
             init(i);
-	    }
+        }
         log = 0;
     }else
     if (e.keyCode === 39) {//right
-    	sum(1);        
+        ctx.clearRect(0, 0, canvas.width, canvas.height);
+        sum(1);        
         for(var i = 0; i <= 12; i += 4) {
-            ctx.clearRect(0, 0, canvas.width, canvas.height);
             init(i);
         }
         log = 0;
     }else
     if (e.keyCode === 40) {//down
-        sum(4);    	
+        ctx.clearRect(0, 0, canvas.width, canvas.height);        
+        sum(4);     
         for(var i = 0; i <= 13; i++) {
-            ctx.clearRect(0, 0, canvas.width, canvas.height);
             init(i);
         }
         log = 0;
