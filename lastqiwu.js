@@ -2,14 +2,17 @@
 var canvas = document.createElement('canvas');
 var ctx=canvas.getContext('2d');
 canvas.width = 400;
-canvas.height = 400;
+canvas.height = 500;
 ctx.fillStyle="#373c38";
-ctx.fillRect(0, 0, 400, 400);
-ctx.font="60px Arial";
+ctx.font="40px Arial";
 ctx.textAlign="center";     //文字对齐方式
-ctx.strokeStyle= "rgb(0,0,0)";
+ctx.strokeStyle= "#000";
 document.body.appendChild(canvas);
 
+function reloadPage() {  //刷新
+  location.reload();
+}
+    
 var arr = [2, 2, 4];
 var text = {
     put: [],
@@ -114,8 +117,7 @@ function selectColor(i) {
             justice = 0;
 
         }
-        for(var j = 0; j <= i; j++) {
-            
+        for(var j = 0; j <= i; j++) {           
             if((text.put[j] === text.put[j + 1] && (j + 1) % 4 !== 0) || text.put[j] === text.put[j + 4] || (text.put[j] === text.put[j - 1] && j % 4 !== 0) || text.put[j] === text.put[j - 4] ) {
             evil = 1;
             break;
@@ -124,6 +126,8 @@ function selectColor(i) {
         }
         
         ctx.fillText(text.put[i], text.x, text.y);
+        ctx.fillStyle="#302833";
+        ctx.fillText("Score：" + text.score, 130, 450);
 
         if((i - 3) % 4 === 0 ) {    //位置变化的计算
             text.y += 100;
@@ -133,11 +137,12 @@ function selectColor(i) {
         }     
     }
     text.y = 70;
+
     // console.log(evil);
     if(justice && !evil) {   //游戏结束的部分
         ctx.fillStyle="#ad002d";
         ctx.font="80px Arial";
-        ctx.fillText("Score:", 160, 120);
+        ctx.fillText("Score:", 190, 120);
         ctx.font="120px Arial";
         ctx.fillText(text.score, 200, 240);
         return;
@@ -184,5 +189,3 @@ addEventListener('keydown', function (e) {
         }
     }   
 }, false);
-
-
