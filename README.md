@@ -1,3 +1,4 @@
+Demo: [2048](http://htmlpreview.github.io/?https://github.com/kxoo/2018-contest/blob/master/lastqiwu.html)
 # Version 1.0
 *	1. 没有做触屏的操作方式( 没有测试的环境)
 *	2. 移动到最大空位( 爽快的一次到底)
