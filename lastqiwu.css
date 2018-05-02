@@ -1,0 +1,19 @@
+body {
+	background-color: #fff;
+	
+}
+
+button {
+	position: relative;
+	top: 55px;
+    left: 310px;
+    padding: 10px 14px;
+    border: 1px solid #DD4B39;
+    border-radius: 2px;
+    color: white;
+    font-weight: bold;
+    font-size: 9pt;
+    outline: none;
+    background-color: #DD4B39;
+    
+}

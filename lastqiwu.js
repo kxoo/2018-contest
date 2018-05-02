@@ -12,14 +12,26 @@ document.body.appendChild(canvas);
 function reloadPage() {  //刷新
   location.reload();
 }
-    
+
+var maxScore = 0; // 历史最高得分    
 var arr = [2, 2, 4];
 var text = {
     put: [],
     y: 100,
     x: 50,
     score: 0
-};
+}
+
+var rank = (function() {
+    if (localStorage.maxScore) {
+        maxScore = localStorage.maxScore - 0; 
+    } else {
+        maxScore = 0;
+    }
+    var setNum = document.getElementById('num');
+    setNum.innerHTML = maxScore;
+})()
+
 function sum(order) {
     for(var i = 0; i <= 15; i++) {
         evil = 0;
@@ -140,6 +152,8 @@ function selectColor(i) {
 
     // console.log(evil);
     if(justice && !evil) {   //游戏结束的部分
+        maxScore = text.score > maxScore ? text.score : maxScore;
+        localStorage.maxScore = maxScore;
         ctx.fillStyle="#ad002d";
         ctx.font="80px Arial";
         ctx.fillText("Score:", 190, 120);
